@@ -8,8 +8,8 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Characters, Planets, Vehicles
-# from models import Person
+from models import db, User, Characters, Planets, Vehicles, Favorites
+
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -105,8 +105,6 @@ favorites = [
 
 ]
 
-# Handle/serialize errors like a JSON object
-
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -194,7 +192,7 @@ def get_all_favorites(id):
     return jsonify(user_favorites), 200
 
 
-@app.route('users<int:id>/favorites/character/<str:character_name>', methods=['POST', 'DELETE'])
+@app.route('/users/favorites/character/<int:id>', methods=['POST', 'DELETE'])
 def add_to_favorite_characters(id, name):
     body = request.get_json()
     if request.method == 'POST':
@@ -212,10 +210,8 @@ def add_to_favorite_characters(id, name):
         return 'Character has been deleted from favorites', 200
     return 'POST or DELETE request was invalid', 484
 
-# This is for favorite planets
 
-
-@app.route('users<int:id>/favorites/planets/<str:planet_name>', methods=['POST', 'DELETE'])
+@app.route('/users/favorites/planet/<int:id>', methods=['POST', 'DELETE'])
 def add_to_favorite_planets(id, name):
     body = request.get_json()
     if request.method == 'POST':
@@ -234,8 +230,8 @@ def add_to_favorite_planets(id, name):
     return 'POST or DELETE request was invalid', 484
 
 
-# @app.route('users<int:id>/favorites/character/<str:character_name>', methods=['POST', 'DELETE'])
-# def add_to_favorite_vehicles(id, name): #passing through the id of the user
+@app.route('/users/favorites/vehicle/<int:id>', methods=['POST', 'DELETE'])
+def add_to_favorite_vehicles(id, name): #passing through the id of the user
     body = request.get_json()
     if request.method == 'POST':
         user = User.query.get(id)
