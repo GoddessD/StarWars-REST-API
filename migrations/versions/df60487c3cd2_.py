@@ -53,19 +53,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('name'),
     sa.UniqueConstraint('vehicle_id')
     )
-    op.create_table('favorites',
-    sa.Column('date_added', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('favorite_characters', sa.Integer(), nullable=True),
-    sa.Column('favorite_planets', sa.Integer(), nullable=True),
-    sa.Column('favorite_vehicles', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['favorite_characters'], ['characters.name'], ),
-    sa.ForeignKeyConstraint(['favorite_planets'], ['planets.name'], ),
-    sa.ForeignKeyConstraint(['favorite_vehicles'], ['vehicles.name'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('date_added'),
-    sa.UniqueConstraint('user_id')
-    )
+    
     op.drop_table('user')
     # ### end Alembic commands ###
 
@@ -80,7 +68,7 @@ def downgrade():
     sa.PrimaryKeyConstraint('id', name='user_pkey'),
     sa.UniqueConstraint('email', name='user_email_key')
     )
-    op.drop_table('favorites')
+    
     op.drop_table('vehicles')
     op.drop_table('users')
     op.drop_table('planets')
