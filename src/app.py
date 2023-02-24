@@ -27,7 +27,7 @@ db.init_app(app)
 CORS(app)
 setup_admin(app)
 
-user = [
+users = [
     {
         'id': 1,
         'name': 'Daniella Louis',
@@ -118,11 +118,13 @@ def sitemap():
     return generate_sitemap(app)
 
 
-@app.route('/user', methods=['GET'])
-def handle_hello():
+@app.route('/users', methods=['GET'])
+def get_all_users():
 
     response_body = {
-        "msg": "Hello, this is your GET /user response "
+        "msg": "Hello, this is your GET /user response ",
+        "users": users
+
     }
 
     return jsonify(response_body), 200
